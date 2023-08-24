@@ -3,5 +3,5 @@ def solution(A,B):
     B.sort()
     r = 0
     for _ in range(len(A)):
-        r += A.pop() * B.pop()
+        r += A.pop() * B.pop() 
     return r
