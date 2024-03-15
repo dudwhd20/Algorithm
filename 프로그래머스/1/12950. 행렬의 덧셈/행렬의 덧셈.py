@@ -5,4 +5,5 @@ def solution(arr1, arr2):
         for ii, vv in enumerate(v):
             a.append(arr1[i][ii] + arr2[i][ii])
         answer.append(a)
+        
     return answer
