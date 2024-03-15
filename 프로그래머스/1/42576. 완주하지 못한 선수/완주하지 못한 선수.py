@@ -11,4 +11,6 @@ def solution(participant, completion):
 
     for _ in participant:
         if pdic[_] != 0 :
+            
+            
             return _
