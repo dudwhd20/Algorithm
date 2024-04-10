@@ -1,29 +1,29 @@
-n, m = map(int, input().split())
-array = list(map(int, input().split()))
-party = [list(map(int, input().split())) for _ in range(m)]
-graph = [[] for _ in range(n+1)]
-visited = [False for _ in range(n+1)]
+import sys
+n,m = map(int, sys.stdin.readline().split())
+array = list(map(int, sys.stdin.readline().split()))
+party = [list(map(int, sys.stdin.readline().split())) for _ in range(m)]
+visited = [False] * (n + 1)
+grahp = [[] for _ in range(n + 1)]
 
 def dfs(x):
     visited[x] = True
+    
+    for _ in grahp[x]:
+        if not visited[_]:
+            dfs(_)
 
-    for x_ in graph[x]:
-        if not visited[x_]:
-            dfs(x_)
+for d in party:
+    for i in range(d[0]):
+        for j in range(i+1, d[0]):
+            grahp[d[i+1]].append(d[j+1])
+            grahp[d[j+1]].append(d[i+1])
 
-# 그래프 초기화
-for data in party:
-    for i in range(data[0]):
-        for j in range(i+1, data[0]):
-            graph[data[i+1]].append(data[j+1])
-            graph[data[j+1]].append(data[i+1])
 
-# 진실을 알게 되는 사람의 명단 초기화
+
 for i in range(array[0]):
     x = array[i+1]
     dfs(x)
 
-# 파티에 참석한 사람 확인
 result = 0
 for i in range(m):
     count = 0
