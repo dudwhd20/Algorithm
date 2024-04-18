@@ -6,6 +6,7 @@ def solution(n, money):
         for price in range(coin, n+1):
             dp[price] = (dp[price] + dp[price - coin]) % DIV
             
+            
 
             
     return dp[n]
