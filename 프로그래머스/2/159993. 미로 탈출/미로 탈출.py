@@ -1,37 +1,50 @@
 from collections import deque
 
+
+def bfs(start, end, maps):
+    answer = -1
+    dx = [1,0,-1,0]
+    dy = [0,1,0,-1]
+    rows = len(maps)
+    cols = len(maps[0])
+    visited = [ [False for _ in range(cols)] for _ in range(rows) ]
+    q = deque()
+
+    q.append((start, 0))
+
+    while q :
+        starts , c = q.popleft()
+        i, j = starts
+        if maps[i][j] == end:
+            answer = c
+
+        for _ in range(4):
+            nx = i + dx[_] 
+            ny = j + dy[_]
+            if 0 <= nx < rows and 0 <= ny < cols:
+                if not visited[nx][ny]:
+                    if maps[nx][ny] != 'X':
+                        q.append(((nx,ny), c + 1))
+                        visited[nx][ny] = True
+
+    return answer
+              
+
 def solution(maps):
-    def bfs(start, end):
-        visit = [[0 for _ in range(R)] for _ in range(C)]
+    answer = -1
 
-        queue = deque()
-        queue.append(start)
+    for i in range(len(maps)):
+        for j in range(len(maps[i])) :
+            if maps[i][j] == 'S':
+                start = (i,j)
+            if maps[i][j] == 'L':
+                lever = (i,j)
+    
+    cl = bfs(start, "L",maps)
+    ce = bfs(lever, "E",maps)
 
-        while queue:
-            c, r = queue.popleft()
+    if cl != -1 and ce != -1:
+        answer = cl + ce    
+    
 
-            for i in range(4):
-                nc, nr = c + dc[i] , r + dr[i]
-
-                if 0 <= nc < C and 0 <= nr < R and not visit[nc][nr] and maps[nc][nr] != "X":
-                    visit[nc][nr] = visit[c][r] + 1
-                    queue.append((nc, nr))
-
-        return visit[end[0]][end[1]]
-
-    C = len(maps)
-    R = len(maps[0])
-    dc = [-1, 1, 0, 0]
-    dr = [0, 0, -1, 1]
-
-
-    for i in range(C):
-        for j in range(R):
-            if maps[i][j] == "S": start = (i, j)
-            elif maps[i][j] == "L": lever = (i, j)
-            elif maps[i][j] == "E": end = (i, j)
-
-    distance1 = bfs(start, lever)
-    distance2 = bfs(lever, end)
-
-    return distance1 + distance2 if distance1 and distance2 else -1
+    return answer
