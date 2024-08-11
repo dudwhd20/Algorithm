@@ -2,16 +2,19 @@ import java.util.*;
 
 class Solution {
     boolean solution(String s) {
-        LinkedList<Character> l = new LinkedList<>();
-        for(char x : s.toCharArray()){
-            if(x == '('){
-                l.add(x);
+        ArrayDeque<Character> stack = new ArrayDeque<>();
+        
+        char[] a = s.toCharArray();
+        for(char c : a){
+            if(c == '('){
+                stack.push(c);                
             }else{
-                if(l.isEmpty())return false;
-                l.pollLast();
-                
+                if(stack.isEmpty() || stack.pop() == c){
+                    return false;
+                }
             }
         }
-        return l.isEmpty();
+        
+        return stack.isEmpty();
     }
 }
