@@ -1,43 +1,62 @@
+import java.util.*;
+
 class Solution {
-    int[] ginfo;
-    int[][] gedges;
-    int maxSheepCnt;
+    public static class Info{
+        int node, sheep, wolf;
+        HashSet<Integer> visited;
+        public Info(int node ,int sheep, int wolf, HashSet<Integer> visited){
+            this.node = node;
+            this.sheep = sheep;
+            this.wolf = wolf;
+            this.visited = visited;
+        }
+    }
+    
+    private static ArrayList<Integer>[] tree;
+    
+    private static void bulidTree(int[] info, int[][] edges){
+        tree = new ArrayList[info.length];
+        for(int i=0; i<tree.length; i++){
+            tree[i] = new ArrayList<>();
+        }
+                
+        for(int[] edge : edges){
+            tree[edge[0]].add(edge[1]);
+        }
+    }
+    
     
     
     public int solution(int[] info, int[][] edges) {
-        ginfo = info;
-        gedges = edges;
-        boolean[] initVisited = new boolean[info.length];
-        dfs(0,initVisited,0,0);
-        return maxSheepCnt;
-    }
-    
-    public void dfs(int idx, boolean[] currVisited, int sheepCnt, int wolfCnt){
-        currVisited[idx] = true;
-        if(ginfo[idx]==0){
-            sheepCnt++;
-            if(sheepCnt > maxSheepCnt){
-                maxSheepCnt = sheepCnt;
-            }
-        }else{
-            wolfCnt++;
-        }
+        int answer = 0;
+        bulidTree(info, edges);
+        ArrayDeque<Info> que = new ArrayDeque<>();
         
-        if(wolfCnt >= sheepCnt) return;
+        que.add(new Info(0, 1, 0, new HashSet<>()));
         
-        for(int[] edge : gedges){
+        while(!que.isEmpty()){
+            Info now = que.poll();
+            answer = Math.max(answer, now.sheep);
             
-            if(currVisited[edge[0]] && !currVisited[edge[1]]){
+            now.visited.addAll(tree[now.node]);
+            for(int next : now.visited){
+                HashSet<Integer> set = new HashSet<>(now.visited);
+                set.remove(next);
                 
-                boolean[] nextVisited = new boolean[currVisited.length];
-                for(int i=0; i<nextVisited.length; i++){
-                    nextVisited[i] = currVisited[i];
+                if(info[next] == 1){
+                    if(now.sheep != now.wolf + 1){
+                        que.add(new Info(next, now.sheep, now.wolf + 1 , set));
+                    }
+                }else{
+                    que.add(new Info(next, now.sheep + 1 , now.wolf, set));
                 }
-                dfs(edge[1], nextVisited, sheepCnt,wolfCnt);
+                
             }
+            
+            
             
         }
         
+        return answer;
     }
-    
 }
