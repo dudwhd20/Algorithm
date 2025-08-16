@@ -6,6 +6,7 @@ class Solution {
         int time = 0, totalWeight = 0, idx = 0;
         for(int i = 0; i < bridge_length; i++) bridge.add(0);
         
+        
         while(idx < truck_weights.length){
             time++;
             totalWeight -= bridge.poll();
