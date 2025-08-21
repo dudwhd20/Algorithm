@@ -1,10 +1,10 @@
 # [level 3] 입국심사 - 43238 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/43238) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/43238?language=kotlin) 
 
 ### 성능 요약
 
-메모리: 98.5 MB, 시간: 58.55 ms
+메모리: 69.9 MB, 시간: 100.56 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 06월 14일 23:00:44
+2025년 08월 21일 15:08:11
 
 ### 문제 설명
 
